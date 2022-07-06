@@ -1,0 +1,72 @@
+<%= render "layouts/hat"%>
+
+<h2>Регистрация</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: {turbo: false}) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+
+  <%= f.radio_button :workgroupe, "Продавец", checked: true %>
+  <%= f.label "Я продавец" %>
+  <%= f.radio_button :workgroupe, "Покупатель" %>
+  <%= f.label "Я покупатель" %>
+
+
+
+
+
+  <div class="field">
+    <%= f.label "Компания/Имя" %><br />
+    <%= f.text_field :company, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Номер телефона" %><br />
+    <%= f.phone_field :phone %>
+  </div>
+
+
+
+
+
+
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Пароль" %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Пароль подтверждение" %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+<div class="field none">
+    <%= f.text_field :copy_pass, id:"input_copy_pass" %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit "Зарегистрировать" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+<script>
+  const input_copy_pass            = document.querySelector("#input_copy_pass")
+  const user_password_confirmation = document.querySelector("#user_password_confirmation")
+  user_password_confirmation.addEventListener("change", ()=>{
+    input_copy_pass.value = user_password_confirmation.value
+    console.log(input_copy_pass.value);
+  })
+  
+</script>

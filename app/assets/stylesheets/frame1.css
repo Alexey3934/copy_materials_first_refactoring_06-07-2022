@@ -1,0 +1,70 @@
+.flex {display: flex;}
+.absolute {position: absolute;}
+.top_and_bottom {
+    background-color: coral;
+    justify-content: space-between;
+}
+.bg_c {background-color: aqua;}
+/* #logo {font-size: 3vw;} */
+#right { 
+    text-align: right;
+}
+input {
+    text-align: center;
+}
+.content1 {
+    display: flex;
+    margin: 1vw;
+    justify-content: space-around
+}
+
+
+.content1 li {
+    font-size: 2vw;
+}
+
+#wrap1 {
+    display: block;
+}
+
+
+#leve1 {margin-left: 2vw;}
+.level1 {margin-left: 2vw;}
+.leve2 {margin-left: 4vw;}
+.leve3 {margin-left: 6vw;}
+
+li {margin: 1vw;}
+#to_root {margin-bottom: 2vw;}
+
+.bold {font-weight: bold;}
+
+
+.table {
+    border-collapse: collapse;
+    height: 3vw;
+}
+
+.scroll {
+    overflow: scroll;
+    height: 30vh;
+}
+.td {border: rgb(20, 17, 17) solid thin;
+    background-color: rgb(250, 215, 212);
+}
+.td_archive {
+    border: rgb(20, 17, 17) solid thin;
+    background-color: rgb(236, 139, 139);
+}
+
+.td_top {
+    background-color: rgb(91, 139, 102);
+    border: rgb(20, 17, 17) solid thin;
+}
+
+  
+.active{background-color: rgb(82, 41, 35);}
+.ban {background-color: red;}
+
+svg {pointer-events: none;}
+
+

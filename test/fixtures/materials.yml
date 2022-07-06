@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: one
+  description: MyString
+  unit: MyString
+  price_retail: 1
+  price_wholesale: 1
+  amount_wholesale: 1
+  region: MyString
+  company: MyString
+  phone: MyString
+
+two:
+  category: two
+  description: MyString
+  unit: MyString
+  price_retail: 1
+  price_wholesale: 1
+  amount_wholesale: 1
+  region: MyString
+  company: MyString
+  phone: MyString

@@ -1,0 +1,150 @@
+<%= render "layouts/hat"%>
+
+<h1>Кабинет администратора</h1>
+
+
+<div class="flex sp_around">
+    <button><%= link_to "продавцы",  mod_sellers_path %></button>
+    <button><%= link_to "покупатели", mod_custumers_path %></button>
+    <button><%= link_to "модерирование", mod_moderate_path %></button>
+    <button class="active">управление</button>
+</div>
+
+<h1>Настройки yookassa</h1>
+<button id="but_config_yookassa">изменить настройки yookassa</button>
+
+<div id="div_config_yookassa" class="none">
+    <%= form_with model: @yookassa_data, url:"/config/yookassa" do |form| %>
+        <ul>
+            <li>token    : <%= form.text_field :token %></li>
+            <li>shop_id  : <%= form.text_field :shop_id %></li>
+        </ul>  
+    <%= form.submit "обновить" %>
+    <% end %>
+</div>
+<ul>
+    <% if (@yookassa_data) %>    
+        <li>token    :     <%= @yookassa_data.token %> </li>
+        <%# <li>token   :     test_OovknISXXpCD3BtM3z-ZVr_1BU9OJYoesi8QmKAoais </li> %>
+        <li>shop_id  :     <%= @yookassa_data.shop_id %></li>
+        <%# <li>shopId  :     910379</li> %>
+    <% end %>
+</ul>
+
+<h1>Список модераторов</h1>
+
+<div class="flex">
+    <input list="list_users" id="input_users"  placeholder="поиск по названию имени">
+    <datalist id="list_users">
+    <% if @users %>
+        <% @users.each do |cust| %>
+            <option value="<%= cust[:company] %>">
+        <% end %>
+    <% end %>
+    </datalist> 
+    <%= image_tag("krest.png", id:"krest_users") %>
+</div>
+
+
+
+
+
+
+
+
+    <table>
+        <tr>
+            <td class="td_top">имя модератора</td>
+            <td class="td_top">номер телефона</td>
+            <%# <td class="td_top">дата регистрации</td> %>
+            <td class="td_top">пароль</td>
+            <td class="td_top"></td> <%# править %>           
+            <td class="td_top"></td> <%# удалить %>           
+            <td class="td_top">отправить сообщение</td>            
+        </tr>  
+
+        <tr>
+            <%# <%= form_with model: User.new, user_registration_path, method: "patch" do |f| %> 
+<%# <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %> 
+ <%= form_with url: config_create_mod_path, model: User do |f|%>
+
+ 
+ 
+ 
+ 
+            <td class=""><%= f.text_field :company %></td>
+            <td class=""><%= f.phone_field :phone %></td>
+            <td class="">
+                <% if @minimum_password_length %>
+                    <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %> <%= f.password_field :password, autocomplete: "new-password" %>
+
+                <div class="none">
+                    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+                </div>
+
+                <div class="field none">
+                    <%= f.text_field :copy_pass, id:"input_copy_pass" %>
+                </div>
+
+                <%= f.email_field :email, class:"none", value:"#{Faker::Internet.email}" %>
+                <%= f.text_field :workgroupe, class:"none", value:"Модератор" %>
+            </td>
+
+            <td>
+              <div class="actions">
+                <%= f.submit "Зарегистрировать" %>
+              </div>
+            </td>
+            <% end %>
+        </tr>  
+
+
+
+
+
+
+
+    <% if @users %>
+        <% @users.each do |user| %>
+        <tr class="tr">
+            <td class="td td_company"><%= user[:company] %></td>
+            <td class="td"><%= user[:phone] %></td>
+            <%# <td class="td"><%= user[:created_at].strftime("%H:%M %d.%m.%y") %><%# </td> %>
+            <td class="td"><%= user[:copy_pass] %></td>
+            <td class="td"><button><%= link_to "править", mod_edit_user_path(user) %></button></td>
+            <td class="td"><button><%= link_to "удалить", delete_user_path(user) %></button></td>
+            <td class="td flex"><button class="but_sent_mes">отправить</button><input data-userid=<%= user.id %> type="text"></td>
+        </tr>
+        <%end%>
+    
+    <%end%>
+</table>
+
+
+
+<script>
+    const but_conf = document.querySelector("#but_config_yookassa") 
+    const div_conf = document.querySelector("#div_config_yookassa") 
+    but_conf.addEventListener("click", ()=>{
+        div_conf.classList.remove("none")
+    })
+
+
+
+    const user_password              = document.querySelector("#user_password")
+    const input_copy_pass            = document.querySelector("#input_copy_pass")
+    const user_password_confirmation = document.querySelector("#user_password_confirmation")
+
+    user_password.addEventListener("change", ()=>{
+        input_copy_pass.value = user_password.value
+        user_password_confirmation.value = user_password.value
+
+        console.log(user_password.value)
+        console.log(input_copy_pass.value)
+        console.log(user_password_confirmation.value)
+
+    })
+
+
+</script>

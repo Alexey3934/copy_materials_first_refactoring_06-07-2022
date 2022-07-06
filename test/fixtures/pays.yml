@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  pay_id: MyString
+  amount: 1
+  status: false
+
+two:
+  user: two
+  pay_id: MyString
+  amount: 1
+  status: false

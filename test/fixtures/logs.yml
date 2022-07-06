@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  moderator_name: MyString
+  action: MyString
+  material_name: MyString
+  unit: MyString
+  price_retail: 1
+  price_wholesale: 1
+  amount_wholesale: 1
+  date_material: MyString
+
+two:
+  moderator_name: MyString
+  action: MyString
+  material_name: MyString
+  unit: MyString
+  price_retail: 1
+  price_wholesale: 1
+  amount_wholesale: 1
+  date_material: MyString

@@ -1,0 +1,23 @@
+#title {
+    font-size: 3vw;
+    text-align: center;
+}
+
+.flex {display: flex}
+/* .justify{justify-content: space-evenly;} */
+
+.level1 {margin-left: 2vw; background-color: aquamarine;}
+.level2 {margin-left: 4vw; background-color: cornsilk;}
+.level3 {margin-left: 6vw; background-color: rgb(8, 139, 139);}
+.bold {font-weight: bold;}
+.none {display: none;}
+
+
+.readonly {background-color: rgb(158, 158, 148);}
+.field_with_errors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+  }
+
+.m_l_2 {margin-left: 2vw;}

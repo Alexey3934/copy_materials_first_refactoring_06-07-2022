@@ -1,0 +1,67 @@
+.bg-catalog {background-color: rgb(168, 198, 202);}
+.margin {margin: 10px;}
+.width_20 {width: 20vw}
+.border {border: 1px solid gray;}
+.pading {padding-right: 2vw;}
+
+#logo {width: min-content;
+     background-color: rgb(182, 160, 134);
+     margin: 1vw;
+     border-radius: 10%;
+    }
+#logo:hover  {color: rgb(7, 92, 97);}
+
+.hover:hover {font-weight: bold;}
+.underline {text-decoration: underline;}
+
+#title_caterory {
+    width: min-content;
+    border: solid;
+}
+#add_material2 {
+    right: 2vw;
+    bottom: 2vw;
+    position: fixed;
+    background-color: rgb(176, 118, 231);
+}
+
+#sort_input {
+    width: 20vw;
+    height: min-content;
+    margin-left: 5vw;
+    background-color: salmon;
+    align-self: center;
+    justify-self: auto;
+}
+
+#krest {
+    width: 2vw;
+    background-color: rgb(17, 41, 33);
+    align-self: center;
+    border: solid rgb(0, 0, 0) 1px;
+}
+
+#krest_delete_request {
+    width: 2vw;
+    background-color: rgb(17, 41, 33);
+    align-self: center;
+    border: solid rgb(0, 0, 0) 1px;
+}
+
+
+#krest_message{
+    width: 2vw;
+    right: 1vw;
+    border: solid rgb(0, 0, 0) 1px;
+}
+
+#krest:hover {
+    background-color: darkslategrey;
+}
+
+#krest_users {
+    width: 2vw;
+    background-color: rgb(17, 41, 33);
+    align-self: center;
+    border: solid rgb(0, 0, 0) 1px;
+}

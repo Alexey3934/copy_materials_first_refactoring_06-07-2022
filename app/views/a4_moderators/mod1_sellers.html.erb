@@ -1,0 +1,65 @@
+<%= render "layouts/hat"%>
+
+<h1>Кабинет модератора</h1>
+
+
+<div class="flex sp_around">
+    <button class="active">продавцы</button>
+    <button><%= link_to "покупатели", mod_custumers_path %></button>
+    <button><%= link_to "модерирование", mod_moderate_path %></button>
+    <% if (current_user.workgroupe == "Администратор") %>
+        <button><%= link_to "управление", mod_config_path%></button>
+    <% end %>
+</div>
+
+<div class="flex">
+    <input list="list_users" id="input_users"  placeholder="поиск по названию имени">
+    <datalist id="list_users">
+    <% if @users %>
+        <% @users.each do |cust| %>
+            <option value="<%= cust[:company] %>">
+        <% end %>
+    <% end %>
+    </datalist> 
+    <%= image_tag("krest.png", id:"krest_users") %>
+</div>
+
+<% if @users %>
+    <table>
+        <tr>
+            <td class="td_top">номер телефона</td>
+            <td class="td_top">название компании</td>
+            <td class="td_top">дата регистрации</td>
+            <td class="td_top"></td>            
+            <td class="td_top">личный кабинет пользователя</td> 
+            <td class="td_top">удалить аккаунт</td>           
+            <td class="td_top">отправить сообщение</td> 
+        </tr>                
+        <% @users.each do |user| %>
+        <tr class="tr">
+            <td class="td"><%= user[:phone] %></td>
+            <td class="td td_company"><%= user[:company] %></td>
+            <td class="td"><%= user[:created_at].strftime("%H:%M %d.%m.%y") %></td>
+            <td class="td"><button><%= link_to "править", mod_edit_user_path(user) %></button></td>
+            <td class="td"><button class="in_seller_cabinet_from_admin" data-id="<%= user.id %>">войти</button></td>
+            <td class="td"><button><%= link_to "удалить", delete_user_path(user) %></button></td>
+            <td class="td flex"><button class="but_sent_mes">отправить</button><input data-userid=<%= user.id %> type="text"></td>
+        </tr>
+        <%end%>
+    </table>
+<%end%>
+
+<div class="flex">
+    <button class="but_sent_mes">отправить сообщение всем продавцам</button><input data-userid="Продавец" type="text">
+</div>
+
+<script> 
+    const buttons_to_sellers = document.querySelectorAll(".in_seller_cabinet_from_admin")
+    buttons_to_sellers.forEach((but)=>{
+        but.addEventListener("click", (but)=>{
+         // переход на страницу продавца с данными продавца а не админа
+         window.location.href = `/mod/seller/cabinet/main/${but.target.dataset.id}`
+         })
+    })
+                            
+</script>

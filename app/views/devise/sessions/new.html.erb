@@ -1,0 +1,28 @@
+<%= render "layouts/hat"%>
+
+<h2>Вход</h2>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="field">
+    <%= f.label "Номер телефона" %><br />
+    <%= f.phone_field :phone, autofocus: true, autocomplete: "phone" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Пароль" %><br />
+    <%= f.password_field :password, autocomplete: "current-password" %>
+  </div>
+
+  <% if devise_mapping.rememberable? %>
+    <div class="field">
+      <%= f.check_box :remember_me %>
+      <%= f.label "Запомнить меня" %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Войти" %>
+  </div>
+<% end %>
+
+<%# <%= render "devise/shared/links" %> 

@@ -1,0 +1,2 @@
+class YookassaDatum < ApplicationRecord
+end

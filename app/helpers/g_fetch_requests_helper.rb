@@ -1,0 +1,2 @@
+module GFetchRequestsHelper
+end

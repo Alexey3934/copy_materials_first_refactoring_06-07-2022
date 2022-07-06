@@ -1,0 +1,95 @@
+<%= render "layouts/hat" %>
+
+
+
+
+
+<select id="region">
+  <option value="Московская область"selected>Московская область</option>
+  <option value="Ленинградская область">Ленинградская область</option>
+  <option value="Крым">Крым</option>
+</select>
+
+
+<div class="flex">
+    <h3 id="title_caterory" class="level1">Категории_товаров</h3>
+    <input list="list" id="sort_input"  placeholder="поиск по названию товара">
+    <datalist id="list">
+    </datalist> 
+    <%= image_tag("krest.png", id:"krest")  %>
+</div>
+
+
+<div class="flex">
+    
+
+
+    <div class="categories_for_materials bg-catalog margin width_20 pading">
+    </div>
+
+    <table class="margin table">
+        <tr class="bold">
+
+            <% if user_signed_in? && current_user[:workgroupe] == "Покупатель" %>
+            <td class="td_top">корзина
+            </td>
+            <% end %>
+
+
+
+
+            <td class="td_top"><p>название</p>
+                <button id="but_name_to_up" class="sort"></button>
+                <button id="but_name_to_down" class="sort"></button>
+            </td> 
+            <td class="td_top">ед.изм.</td>
+            <td class="td_top"><p>цена розн.</p>
+                <button id="but_price_retail_to_up" class="sort"></button>
+                <button id="but_price_retail_to_down" class="sort"></button>
+            </td>
+            <td class="td_top"><p>цена опт.</p>
+                 <button id="but_price_wholesale_to_up" class="sort"></button>
+                <button id="but_price_wholesale_to_down" class="sort"></button>
+            </td>
+            <td class="td_top">объём опта</td>
+            <td class="td_top">компания</td>
+            <td class="td_top">тел для заказа</td>
+        </tr>
+    </table>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class='top_and_bottom flex'>
+    <div> 
+        <p>орагнизация 1</p>
+        <p>орагнизация 2</p>
+    </div>
+    <div> 
+        <p>орагнизация 3</p>
+        <p>орагнизация 4</p>
+    </div>
+    <div> 
+        <p>орагнизация 5</p>
+        <p>орагнизация 6</p>
+    </div>
+    <div> 
+        <p>орагнизация 7</p>
+        <p>орагнизация 8</p>
+    </div>
+</div>

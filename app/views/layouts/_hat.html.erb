@@ -1,0 +1,54 @@
+<div class='top_and_bottom flex'>
+    <div id='logo'>
+
+
+        <h2>ЦеноСтрой</h2>
+        <p>Лучшие цены на</p>
+        <p>стройматериалы</p>
+    </div>
+    <div>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+    </div>
+    <div>
+        <% if user_signed_in? %>
+            <span>Здравствуйте, <%= current_user.company %> </span>
+            <p> Статус <span id="workgroupe"><%= current_user.workgroupe %></span> </p>
+            <span id="user_id" class="none"><%= current_user.id %> </span>
+            <% if (current_user[:workgroupe] == "Продавец") %>
+                <p> Внутренний баланс <strong><%= current_user[:purse] %></strong> баллов </p>
+            <% end %>
+            <div id="messages">сообщения
+                <%= image_tag("bell.png", id:"bell") %>
+                <div id="sub_message" class="absolute bg_c none">
+                    <%= image_tag("krest.png", id:"krest_message", class:"absolute") %>
+                    <% mess = Message.where(user_id:current_user.id)  %>
+                    <% if mess.size > 0 %>
+                        <% mess.each do |item| %>
+                          <p><%= item.body %></p>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+            
+            <%    if current_user[:workgroupe] == "Продавец" %>
+                <button><%= link_to "кабинет для продавца", a2_sellers_main_path %></button>                
+            <% elsif current_user[:workgroupe] == "Покупатель" %>
+                <button><%= link_to "кабинет для покупателя", a3_custumers_main_path %></button>                
+                <span id="basket_ids" class="none"><%=  @requests_basket %></span>
+            <% else %>
+                <button><%= link_to "кабинет для админа/модератора", mod_sellers_path %></button>                
+            <% end %>
+
+            <% if current_user[:workgroupe] != "Покупатель" %>
+                <%= link_to 'Добавить товар',  new_a1_item_path    %>
+                <button id="add_material2" class="none" >Добавить товар с категорией</button>      
+            <% end %>  
+            <%= button_to 'Выйти', destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %> 
+        <% else %>
+            <%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
+            <%= link_to 'Добавить товар', new_a1_item_path %>    
+            <button id="add_material2" >Добавить товар с категорией</button>      
+        <% end %>
+    </div>
+</div>

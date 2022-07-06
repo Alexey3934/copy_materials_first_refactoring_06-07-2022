@@ -1,0 +1,124 @@
+<%= render "layouts/hat"%>
+
+<h1>Кабинет модератора</h1>
+
+
+<div class="flex sp_around">
+    <button><%= link_to "продавцы",  mod_sellers_path %></button>
+    <button><%= link_to "покупатели", mod_custumers_path %></button>
+    <button class="active">модерирование</button>
+    <% if user_signed_in? %> 
+        <% if (current_user.workgroupe != "Модератор") %>
+            <button><%= link_to "управление", mod_config_path%></button>
+        <% end %>
+    <% end %>
+
+</div>
+
+
+<h3>на модерацию</h3>
+<% if @materials %>
+    <table>
+        <tr>
+            <td class="td_top"><p>название организации/</p><p>имя пользователя</p></td>
+            <td class="td_top">номер телефона</td>
+            <td class="td_top">название товара</td>
+            <td class="td_top">ед.измерения</td>            
+            <td class="td_top">цена розн</td>            
+            <td class="td_top">цена опт</td> 
+            <td class="td_top">объём опт</td> 
+            <td class="td_top">дата публикации</td> 
+            <td class="td_top">удалить</td> 
+            <td class="td_top">изменить</td> 
+            <td class="td_top">опубликовать</td> 
+        </tr>                
+        <% @materials.each do |mat| %>
+        <tr>
+        <% if (mat[:company]) %>
+            <td class="td"><%= mat[:company] %></td>
+        <% else %>
+            <td class="td"><%= User.find(mat[:user_id]).company %></td>
+        <% end %>
+
+            <td class="td"><%= mat[:phone] %></td>
+            <td class="td"><%= mat[:description] %></td>
+            <td class="td"><%= mat[:unit] %></td>
+
+
+
+                <% if mat[:price_retail] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= mat[:price_retail] %></td>
+                <% end %>
+
+                <% if mat[:price_wholesale] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= mat[:price_wholesale] %></td>
+                <% end %>
+                
+                <% if mat[:amount_wholesale] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= mat[:amount_wholesale] %></td>
+                <% end %>           
+            
+            
+            
+            
+            <td class="td"><%= mat[:created_at].strftime("%H:%M %d.%m.%y")%></td>
+            <td class="td"><button class='but_delete_mat' data-todelete=<%= mat.id %> data-cur_userid="<%= current_user.id %>">удалить</button></td>
+            <td class="td"><button class="but_edit_mat"   data-toedit=<%= mat.id %>><%= link_to "изменить", edit_a1_item_path(mat.id) %></button></td>
+            <td class="td"><button class="but_moderating" data-toactive=<%= mat.id %> >опубликовать</button></td>
+        </tr>
+        <%end%>
+    </table>
+<%end%>
+<hr>
+<h3>лог действий</h3>
+
+<table>
+    <tr>
+        <td class="td_top">имя модератора</td>
+        <td class="td_top">действие</td>
+        <td class="td_top">название товара</td>
+        <td class="td_top">ед.измерения</td>            
+        <td class="td_top">цена розн</td>            
+        <td class="td_top">цена опт</td> 
+        <td class="td_top">объём опт</td> 
+        <td class="td_top">дата публикации товара</td> 
+        <td class="td_top">дата действия модератора</td> 
+    </tr>                
+    <% if @logs %>
+        <% @logs.each do |log| %>
+            <tr>
+                <td class="td"><%= log[:moderator_name] %></td>
+                <td class="td"><%= log[:action] %></td>
+                <td class="td"><%= log[:material_name] %></td>
+                <td class="td"><%= log[:unit] %></td>
+                
+                <% if log[:price_retail] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= log[:price_retail] %></td>
+                <% end %>
+
+                <% if log[:price_wholesale] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= log[:price_wholesale] %></td>
+                <% end %>
+                
+                <% if log[:amount_wholesale] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= log[:amount_wholesale] %></td>
+                <% end %>
+                
+                <td class="td"><%= log[:date_material] %></td>
+                <td class="td"><%= log[:created_at].strftime("%H:%M %d.%m.%y")%></td>
+
+        <%end%>
+    <% end %>
+</table>

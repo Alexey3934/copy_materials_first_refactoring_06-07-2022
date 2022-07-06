@@ -1,0 +1,52 @@
+<%= render "layouts/hat" %>
+
+
+ <h1>редактирование профиля</h1>
+<br>
+<br>
+<%= form_with url: mod_update_user_path, model: @user do |f|%>
+    <%= f.text_field :company %>
+    <%= f.label :"имя/компания"  %>
+<br>
+<br>
+    <%= f.text_field :phone %>
+    <%= f.label :"номер телефона"  %>
+<br>    
+<br>    
+    <%= f.select :workgroupe, ["Покупатель", "Продавец", "Модератор"] %>
+    <%= f.label :"статус рабочей группы"  %>
+<br>    
+<br>    
+    <%= f.text_field :email %>
+    <%= f.label :"email"  %>
+<br>    
+<br>    
+
+    <%= f.text_field :copy_pass %>
+    <%= f.label "Пароль" %>
+
+  <%= f.password_field :current_password, class:"none hid_input" %>
+  <%= f.password_field :password, class:"none hid_input" %>
+  <%= f.password_field :password_confirmation, class:"none hid_input" %>
+  <input type="hidden" name="url_back" value="<%= @url_back %>">
+<br>    
+<br> 
+
+
+
+
+
+    <%= f.submit "Обновить" %>
+<% end %>
+
+
+<script>
+    const user_copy_pass = document.querySelector("#user_copy_pass")
+    const hid_inputs = document.querySelectorAll(".hid_input")
+    hid_inputs.forEach((inp)=>{
+        inp.value = user_copy_pass.value
+    })
+    user_copy_pass.addEventListener("change", ()=>{
+        hid_inputs.forEach((inp)=>inp.value = user_copy_pass.value)
+    })
+</script>

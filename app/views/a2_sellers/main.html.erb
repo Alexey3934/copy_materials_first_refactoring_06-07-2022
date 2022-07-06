@@ -1,0 +1,165 @@
+<%= render "layouts/hat" %>
+
+<div class="flex sp_around margin">
+    <% if user_signed_in? %>
+        <% if (current_user.workgroupe == "Продавец") %>
+            <button id="but_edit_custumer_profile"> <%= link_to "Редактировать профиль", edit_user_registration_path %></button>
+        <% end %>
+    <% end %>
+  
+    <button class="active">Мои объявления</button>
+    <% if (current_user.workgroupe == "Продавец") %>
+        <%= button_to "Заявки", a2_sellers_requests_path, method: :get %>
+    <% else %>
+        <button id="but_to_request" data-id="<%=params[:seller_id]%>">Заявки</button>
+    <% end %>
+</div>
+
+<h2>Активные объявления</h2>
+
+
+<div class="flex scroll">
+    <table class="margin table ">
+    <tr class="bold">
+        <td class="td_top">название</td> 
+        <td class="td_top">ед.изм.</td>
+        <td class="td_top">цена розн.</td>
+        <td class="td_top">цена опт.</td>
+        <td class="td_top">объём опта</td>
+        <td class="td_top">дата публикации</td>
+        <td class="td_top">оставшееся время публикации</td>
+        <td class="td_top">удалить</td>
+        <td class="td_top">изменить</td>
+        <td class="td_top">автопродление</td>
+        <td></td>
+    </tr>
+                            <% if @materials  %>
+                                <% @materials.each do |mat|%>
+                                
+    <%if mat[:active] == true%>    
+        <tr>
+            <td class="td"><%= mat.description %></td>
+            <td class="td"><%= mat.unit %></td>
+                <% if mat[:price_retail] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= mat[:price_retail] %></td>
+                <% end %>
+
+                <% if mat[:price_wholesale] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= mat[:price_wholesale] %></td>
+                <% end %>
+
+                <% if mat[:amount_wholesale] == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= mat[:amount_wholesale] %></td>
+                <% end %>
+
+
+            <td class="td"><%= mat.created_at.strftime("%H:%M %d.%m.%y") %></td>
+            <td class="td"></td>
+
+
+            <td class="td"><button class="delete_material" data-mat_id='<%= mat.id %>'>удалить</button></td>
+
+            <td class=""><button><%= link_to "изменить", edit_a1_item_path(mat) %></button></td>
+            <td class=""><input type="checkbox"></td>
+        </tr>
+                                    <%end%>
+                                <%end%>
+        </table>
+    <% end %>
+
+</div>
+
+
+
+<tr>
+<tr>
+<tr>
+
+<h2>Архив</h2>
+<div class="flex scroll">
+    <table class="margin table">
+    <tr class="bold">
+        <td class="td_top">название</td> 
+        <td class="td_top">ед.изм.</td>
+        <td class="td_top">цена розн.</td>
+        <td class="td_top">цена опт.</td>
+        <td class="td_top">объём опта</td>
+        <td class="td_top">дата публикации</td>
+        <td class="td_top">оставшееся время публикации</td>
+        <td class="td_top">удалить</td>
+        <td class="td_top">на модерирование</td>
+        <td></td>
+    </tr>
+                            <% if @materials  %>
+                                <% @materials.each do |mat|%>
+    <% if mat[:active] == false %>    
+        <tr>
+            <td class="td_archive"><%= mat.description %></td>
+            <td class="td_archive"><%= mat.unit %></td>
+
+                <% if mat[:price_retail] == 0%>
+                    <td class="td_archive"> - </td>
+                <% else %>
+                     <td class="td_archive"><%= mat[:price_retail] %></td>
+                <% end %>
+
+                <% if mat[:price_wholesale] == 0%>
+                    <td class="td_archive"> - </td>
+                <% else %>
+                     <td class="td_archive"><%= mat[:price_wholesale] %></td>
+                <% end %>
+
+                <% if mat[:amount_wholesale] == 0%>
+                    <td class="td_archive"> - </td>
+                <% else %>
+                     <td class="td_archive"><%= mat[:amount_wholesale] %></td>
+                <% end %>
+
+
+
+            <td class="td_archive"><%= mat.created_at.strftime("%H:%M %d.%m.%y") %></td>
+            <td class="td_archive"></td>
+            <td class=""><button class="delete_material" data-mat_id='<%= mat.id %>'>удалить</button></td>
+            <td class=""><button class="on_mod_material" data-mat_id='<%= mat.id %>'>на модерирование</button></td>
+        </tr>
+                                    <%end%>
+                                <%end%>
+
+    <% end %>
+    </table>
+</div>
+
+
+<script>
+    const but_to_request = document.querySelector("#but_to_request")
+    if (but_to_request) {
+        const current_seller_id = but_to_request.dataset.id
+        but_to_request.addEventListener("click", ()=>window.location.href = `/mod/seller/cabinet/requests/${current_seller_id}`)
+    }
+
+
+    const buts_on_mod_material = document.querySelectorAll(".on_mod_material") 
+    buts_on_mod_material.forEach(but=>{
+            but.addEventListener("click", (but)=>{
+                const mat_id_to_mod = but.target.getAttribute("data-mat_id")
+                fetch(`/to_moderate/${mat_id_to_mod}`)
+                but.target.parentElement.parentElement.remove()
+            })
+    })
+
+
+    const buts_delete_material = document.querySelectorAll(".delete_material") 
+    buts_delete_material.forEach(but=>{
+            but.addEventListener("click", (but)=>{
+                const mat_id_to_delete = but.target.getAttribute("data-mat_id")
+                fetch(`/mat/to/delete/${mat_id_to_delete}`)
+                but.target.parentElement.parentElement.remove()
+            })
+    })
+</script>

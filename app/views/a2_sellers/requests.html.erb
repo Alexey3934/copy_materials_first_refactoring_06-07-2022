@@ -1,0 +1,90 @@
+<%= render "layouts/hat" %>
+
+<div class="flex sp_around margin">
+    <% if user_signed_in? %>
+        <% if (current_user.workgroupe == "Продавец") %>
+            <button id="but_edit_custumer_profile"> <%= link_to "Редактировать профиль", edit_user_registration_path %></button>
+        <% end %>
+    <% end %>
+
+    
+    <% if (current_user.workgroupe == "Продавец") %>
+        <%= button_to "Мои объявление", a2_sellers_main_path, method: :get %>
+    <% else %>
+        <button id="but_my_materials" data-id="<%=params[:seller_id]%>">Мои объявление</button>
+    <% end %>
+    <button class="active">Заявки</button>
+
+
+</div>
+<h2>Заявки</h2>
+
+<div class="flex">
+    <table class="margin table ">
+        <tr class="bold">
+            <td class="td_top">название</td> 
+            <td class="td_top">ед.изм.</td>
+            <td class="td_top">цена розн.</td>
+            <td class="td_top">цена опт.</td>
+            <td class="td_top">объём опта</td>
+            <td class="td_top">имя покупателя</td>
+            <td class="td_top">телефон покупателя</td>
+            <td class="td_top">дата заявки</td>
+            <td class="td_top">удалить</td>
+            <td></td>
+        </tr>
+
+
+        <% if @requests  %>
+            <% @requests.each do |request|%>
+                <tr>
+                    <td class="td"><%= request.material.description %></td>
+                    <td class="td"><%= request.material.unit %></td>
+  
+                <% if request.material.price_retail == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= request.material.price_retail %></td>
+                <% end %>
+
+                <% if request.material.price_wholesale == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= request.material.price_wholesale %></td>
+                <% end %>
+
+                <% if request.material.amount_wholesale == 0%>
+                    <td class="td"> - </td>
+                <% else %>
+                     <td class="td"><%= request.material.amount_wholesale %></td>
+                <% end %>
+
+
+
+                    <td class="td"><%= request.user.company %></td>
+                    <td class="td"><%= request.user.phone %></td>
+                    <td class="td"><%= request.created_at.strftime("%H:%M %d.%m.%y") %></td>
+                    <td><button class="del_req" data-id="<%= request.id %>">удалить запрос</button></td>
+                </tr>
+            <%end%>
+        <% end %>  
+
+    </table>
+</div>
+
+<script>
+    const but_my_materials = document.querySelector("#but_my_materials")
+    if (but_my_materials) {
+        const current_seller_id = but_my_materials.dataset.id
+        but_my_materials.addEventListener("click", ()=>window.location.href = `/mod/seller/cabinet/main/${current_seller_id}`)
+    }
+
+    const bге_del_req =  document.querySelectorAll(".del_req")
+    bге_del_req.forEach((but)=>{
+        but.addEventListener("click", ()=>{
+            fetch(`/sellers/requests//${but.dataset.id}`)
+            but.parentNode.parentNode.remove()
+        })
+    })
+
+</script>

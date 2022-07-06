@@ -1,0 +1,95 @@
+<%= render "layouts/hat" %>
+<h2>Кабинет покупателя</h2>
+
+<div class="flex sp_around">
+   
+    <% if user_signed_in? %>
+        <% if (current_user.workgroupe == "Покупатель") %>
+            <button id="but_edit_custumer_profile"> <%= link_to "Редактировать профиль", edit_user_registration_path %></button>
+        <% end %>
+    <% end %>   
+   
+
+    <% if (current_user[:workgroupe] == "Покупатель")%>
+      <button id="but_basket" class="buttons">Корзина</button>
+      <button id="but_history" class="active buttons">История заявок</button>
+    <% else %>
+        <button id="but_to_index_from_admin" class="buttons"  data-id="<%= params[:custumer_id] %>">Корзина</button>
+        <button  class="active buttons">История заявок</button>
+    <% end %>
+
+
+
+</div>
+
+<div  id="archive" class=''>
+
+    <% url = "/baskets/to_delete/from/#{params[:custumer_id]}" %>
+    <% if (current_user.workgroupe == "Покупатель") %>
+        <% url = "/baskets/to_delete/from/#{current_user.id}" %>
+    <% end %>
+
+    <%= form_with url:url do |form| %>
+        <table id="table_archive" class="margin table  ">
+            <tr class="bold">
+                <td class="td_top">выбор для очистки</td>
+                <td class="td_top"><p>название</p></td> 
+                <td class="td_top">ед.изм.</td>
+                <td class="td_top"><p>цена розн.</p></td>
+                <td class="td_top"><p>цена опт.</p></td>
+                <td class="td_top">объём опта</td>
+                <td class="td_top">компания</td>
+                <td class="td_top">тел для заказа</td>
+            </tr>
+            <% if @archive %>
+                 <%  @archive.each do |mat| %>
+                     <tr>
+                         <td class="td_archive"><%= form.check_box "#{mat.id}", class:"checkbox" %></td>
+                         <td class="td_archive"><%= mat.description %></td>
+                         <td class="td_archive"><%= mat.unit %></td>
+
+                         <% if mat[:price_retail] == 0%>
+                             <td class="td_archive"> - </td>
+                         <% else %>
+                              <td class="td_archive"><%= mat[:price_retail] %></td>
+                         <% end %>
+         
+                         <% if mat[:price_wholesale] == 0%>
+                             <td class="td_archive"> - </td>
+                         <% else %>
+                              <td class="td_archive"><%= mat[:price_wholesale] %></td>
+                         <% end %>
+                         
+                         <% if mat[:amount_wholesale] == 0%>
+                             <td class="td_archive"> - </td>
+                         <% else %>
+                              <td class="td_archive"><%= mat[:amount_wholesale] %></td>
+                         <% end %>
+
+
+                        <% if (mat[:user_id] == 18) %>
+                             <td class="td_archive"><%= mat.company %></td>
+                        <% else %>
+                             <td class="td_archive"><%= User.find(mat[:user_id]).company %></td>
+                        <% end %>
+
+
+
+
+                         <td class="td_archive"><%= mat.phone %></td>
+                     </tr>
+                 <% end %>
+            <% end %>
+        </table>
+        <%= form.submit "Очистить", id:"submit_clean" %>
+    <% end %>
+</div>
+
+<script>
+    const but_to_index_from_admin = document.querySelector("#but_to_index_from_admin")
+    if (but_to_index_from_admin) {
+   
+        const current_custumer_id = but_to_index_from_admin.dataset.id
+        but_to_index_from_admin.addEventListener("click", ()=>window.location.href = `/mod/custumer/cabinet/main/${current_custumer_id}`)
+   }
+</script>

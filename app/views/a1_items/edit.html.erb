@@ -1,0 +1,157 @@
+<%= render "layouts/hat" %>
+
+<div id="title">Изменение товара</div>
+
+ <h3 id="title_caterory" class="level1">Категории_товаров</h3>
+
+    <div class="flex justify">
+
+       
+        <div class="categories_for_materials bg-catalog margin width_20 pading">
+        </div>
+        <div class="none" id="target_category_edit">        <% if @target_category %>
+                                                              <%= @target_category[:name] %>
+                                                            <% end %>
+        </div>       
+
+
+
+
+
+        <div>
+            <%= form_with model: @material, id:'form_material', url:"/a1_items/#{@material[:id]}" do |form|  %>
+
+
+
+
+                <div>
+                    <%= form.label :"категория" %><br>
+                    <%= form.text_field :category_name , :readonly => true, class:"readonly",  value: 'выберите категорию'%>
+                    <% @material.errors.full_messages_for(:category_name).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>                
+                  </div>                    
+<br>
+                <div>
+                    <%= form.label :"название" %><br>
+                    <%= form.text_field :description %>
+                    <% @material.errors.full_messages_for(:description).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>
+                </div>
+<br>
+                <div>
+                    <%= form.label :"единицы измерения" %><br>
+                    <%= form.text_field :unit %>
+                    <% @material.errors.full_messages_for(:unit).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>
+                </div>                
+<br>
+
+<input id="price_retail_checkbox" type="checkbox" checked>
+<label for="price_retail_checkbox">цена розничная</label>
+<div id="price_retail_div">
+
+                <div>
+                    <%# <%= form.label :"цена розничная" %>
+                    <%= form.number_field  :price_retail, class:"m_l_2" %>
+                    <% @material.errors.full_messages_for(:price_retail).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>            
+               </div>                
+</div>
+<br>
+<input id="price_wholesale_checkbox" type="checkbox" checked>
+<label for="price_wholesale_checkbox">цена оптовая</label>
+<div id="price_wholesale_div">
+                <div>
+                    <%# <%= form.label :"цена оптовая" %>
+                    <%= form.number_field  :price_wholesale, class:"m_l_2" %>
+                    <% @material.errors.full_messages_for(:price_wholesale).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>                
+                </div>                
+<br>
+                <div>
+                    <%= form.label :"объём опта", class:"m_l_2"  %><br>
+                    <%= form.number_field  :amount_wholesale, class:"m_l_2" %>
+                    <% @material.errors.full_messages_for(:amount_wholesale).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>              
+                </div>  
+     
+</div>
+            <br>    
+<br>                
+                <div>
+                    <input id="hidden_input1" type='hidden' name="first_categoty_new_name">
+                </div>
+                <div>
+                    <input id="hidden_input2" type='hidden' name="second_categoty_new_name">
+                </div>
+                <div>
+                    <input id="hidden_input3" type='hidden' name="third_categoty_new_name">
+                </div>
+                <div>
+                    <input id="hidden_input4" type='hidden' name="result_category_name">
+                </div>
+
+                <div>
+                    <%= form.label :"регион" %><br>
+                    <%= form.select :place, ["Московская область", "Ленинградская область", "Крым"] %>
+                    <% @material.errors.full_messages_for(:place).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>            
+                </div>                
+<br>
+                <div>
+                    <%= form.label :"компания" %><br>
+                 
+                    <% if user_signed_in? %>
+                        <%= form.text_field :company, value:"#{current_user.company}", :readonly => true, class:"readonly" %>
+                    <% else %>
+                        <%= form.text_field :company%>
+                    <% end %>
+                     <% @material.errors.full_messages_for(:company).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>               
+                </div>                
+<br>
+                <div>
+                    <%= form.label :"телефон" %><br>
+                    <% if user_signed_in? %>
+                        <%= form.text_field :phone, value:"#{current_user.phone}", :readonly => true, class:"readonly" %>
+                    <% else %>
+                        <%= form.text_field :phone %>
+                    <% end %>
+                    <% @material.errors.full_messages_for(:phone).each do |message| %> 
+                     <div> <%= message %> </div> 
+                     <% end  %>               
+                </div>                
+<br>
+
+                <div>
+                  <%= form.submit "на модерирование", id:"submit_edit_mat" %>
+                </div>
+
+            <% end %>
+        </div>
+
+        <%# <div> %>
+            <%# <%=  button_to "запрос на yookassa", materials_pay_path %> 
+        <%# </div> %>
+    </div>
+
+</div>
+
+
+<script>
+    const submit = document.querySelector("#submit_edit_mat")
+    submit.addEventListener("click", ()=>{
+        document.querySelector("#hidden_input4").value = document.querySelector("#material_category_name").value
+    })
+
+    sessionStorage.target_category_for_edit_material = document.querySelector("#target_category_edit").innerHTML
+    sessionStorage.clicked_button_with_category = true
+</script>
